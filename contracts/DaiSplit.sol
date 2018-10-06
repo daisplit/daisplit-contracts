@@ -16,7 +16,10 @@ contract DaiSplit {
 
   mapping (string => address) member_Name_Address;
   mapping (address => string) member_Address_Name;
-  
+
+  mapping (address=>uint) debit; // IOUs
+  mapping (address=>uint) credit; // UOMEs
+
   modifier isOwner() {
     require(msg.sender == owner);
     _;
@@ -60,7 +63,21 @@ contract DaiSplit {
     return ALLOWANCE_RATE;
   }
 
-  function raiseExpenditure(uint _expenditureAmt) returns (bool _recordExpStatus) {
+  function raiseExpenditure(uint _expenditureAmt, address _split1, address _split2, address _split3, address _split4, address _split5) returns (bool _recordExpStatus) {
+    debit[members[0]] += _split1;
+    debit[members[1]] += _split2;
+    debit[members[2]] += _split3;
+    debit[members[3]] += _split4;
+    debit[members[4]] += _split5;
+
+    credit[msg.sender] += _expenditureAmt;
+  }
+
+  function rePay(uint _repayAmount) returns (bool _repayStatus) {
     
+  }
+
+  function recoverAsset() {
+
   }
 }
